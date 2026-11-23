@@ -66,10 +66,10 @@ def total_energy(pos, vel, mass):
     ke = 0.5 * (mass * (vel**2).sum(1)).sum()
     diff = pos[None] - pos[:, None]
     d = np.sqrt((diff**2).sum(-1) + SOFTENING**2)
-    iu = np.triu_indices(len(mass), 1)
-    pe = -(G * mass[iu[0]] * mass[iu[1]] / d[iu]).sum()
+    pair = G * mass[:, None] * mass[None, :] / d   # n×n table: G·mᵢ·mⱼ / rᵢⱼ
+    np.fill_diagonal(pair, 0)                      # remove each body paired with itself
+    pe = -pair.sum() / 2                           # every pair was counted twice
     return ke + pe
-
 
 class Simulation:
     def __init__(self, bodies, dt=0.001):
