@@ -48,8 +48,8 @@ def initial_conditions(bodies, seed=1):
         pos[i] = r * np.array([np.cos(theta), np.sin(theta)])
         vel[i] = v * np.array([-np.sin(theta), np.cos(theta)])
     # shift to centre-of-mass frame so the system doesn't drift
-    pos -= (mass[:, None] * pos).sum(0) / mass.sum()
-    vel -= (mass[:, None] * vel).sum(0) / mass.sum()
+        pos -= (mass[:, None] * pos).sum(0) / mass.sum()
+        vel -= (mass[:, None] * vel).sum(0) / mass.sum()
     return mass, pos, vel
 
 
